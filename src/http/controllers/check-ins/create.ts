@@ -25,4 +25,5 @@ export async function create(req: FastifyRequest, rep: FastifyReply) {
     userLatitude: latitude,
     userLongitude: longitude,
   })
+  return rep.status(201).send()
 }

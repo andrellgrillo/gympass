@@ -7,6 +7,8 @@ export function getDistanceBetweenCoordenates(
   from: Coordenate,
   to: Coordenate,
 ) {
+  // console.log(from)
+  // console.log(to)
   if (from.latitude === to.latitude && from.longitude === to.longitude) {
     return 0
   }
@@ -29,8 +31,11 @@ export function getDistanceBetweenCoordenates(
   }
 
   dist = Math.acos(dist)
+
   dist = (dist * 180) / Math.PI
+
   dist = dist * 60 * 1.1545
+
   dist = dist * 1.609344
 
   return dist

@@ -3,17 +3,20 @@ import { z } from 'zod'
 import { makeFetchUserCheckInsHistoryUseCase } from '@/use-cases/factories/make-fetch-user-check-ins-history-use-case'
 
 export async function history(request: FastifyRequest, reply: FastifyReply) {
-  const fetchUserCheckInHistoryBodySchema = z.object({
-    page: z.coerce.number().min(1),
+  const checkInHistoryQuerySchema = z.object({
+    page: z.coerce.number().min(1).default(1),
   })
-  const { page } = fetchUserCheckInHistoryBodySchema.parse(request.query)
 
-  const fetchUserCheckInHistoryUseCase = makeFetchUserCheckInsHistoryUseCase()
+  const { page } = checkInHistoryQuerySchema.parse(request.query)
 
-  const { checkIns } = await fetchUserCheckInHistoryUseCase.execute({
-    userId: request.user.sub,
+  const fetchUserCheckInsHistoryUseCase = makeFetchUserCheckInsHistoryUseCase()
+
+  const { checkIns } = await fetchUserCheckInsHistoryUseCase.execute({
     page,
+    userId: request.user.sub,
   })
 
-  return reply.status(200).send({ checkIns })
+  return reply.status(200).send({
+    checkIns,
+  })
 }
